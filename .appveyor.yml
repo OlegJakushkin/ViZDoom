@@ -1,0 +1,49 @@
+version: "{build}"
+
+environment:
+  matrix:
+    - GENERATOR: "Visual Studio 12 2013"
+      CONFIGURATION: Debug
+      TOOLSET: v120_xp
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"      
+    - GENERATOR: "Visual Studio 12 2013"
+      CONFIGURATION: Release
+      TOOLSET: v120_xp
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"   
+      
+build_script:
+  - choco install opencv
+  - git clone --recursive https://github.com/rheit/zdoom
+  - cd zdoom
+  - md build
+  - cd build
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" ..
+  - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
+  - cd ../../
+  - git clone --recursive https://github.com/mwydmuch/ViZDoom
+  - cd ViZDoom
+  - md build
+  - cd build
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON  -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ..
+  - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
+  - git clone --recursive https://github.com/opencv/opencv
+  - cd opencv
+  - md build
+  - cd build
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_opencv_world=ON -DBUILD_SHARED_LIBS=ON
+  - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
+
+after_build:
+  - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom\build\%CONFIGURATION%\
+  - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom\build\%CONFIGURATION%\
+  - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\build\%CONFIGURATION%\
+  - 7z a ..\vizdoom.zip "%zd%*" "%vd%*" "%cv%*"
+
+artifacts:
+  - path: vizdoom.zip
+
+notifications:
+  - provider: Email
+    on_build_success: false
+    on_build_failure: false
+    on_build_status_changed: false
