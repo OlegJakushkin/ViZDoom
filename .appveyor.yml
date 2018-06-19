@@ -34,14 +34,14 @@ build_script:
   - git checkout 3.4.1
   - md build
   - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_DOCS=OFF  -DBUILD_opencv_world=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF  -DBUILD_SHARED_LIBS=ON -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF   ../
-  - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_BUILD_TYPE="%CONFIGURATION%"  -DBUILD_DOCS=OFF  -DBUILD_opencv_world=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF  -DBUILD_SHARED_LIBS=ON -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF   ../
+  - cmake --build . --config "%CONFIGURATION%" --target INSTALL -- /verbosity:minimal
   - cd ../../
 
 after_build:
-  - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom\build\%CONFIGURATION%\
-  - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom\build\%CONFIGURATION%\
-  - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\build\%CONFIGURATION%\
+  - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom\
+  - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom\
+  - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\install\
   - 7z a vizdoom.zip "%zd%*" "%vd%*" "%cv%*"
 
 artifacts:
