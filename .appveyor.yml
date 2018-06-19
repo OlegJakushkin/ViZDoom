@@ -36,12 +36,13 @@ build_script:
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_DOCS=OFF  -DBUILD_opencv_world=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF  -DBUILD_SHARED_LIBS=ON -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF   ../
   - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
+  - cd ../../
 
 after_build:
   - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom\build\%CONFIGURATION%\
   - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom\build\%CONFIGURATION%\
   - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\build\%CONFIGURATION%\
-  - 7z a ..\vizdoom.zip "%zd%*" "%vd%*" "%cv%*"
+  - 7z a vizdoom.zip "%zd%*" "%vd%*" "%cv%*"
 
 artifacts:
   - path: vizdoom.zip
