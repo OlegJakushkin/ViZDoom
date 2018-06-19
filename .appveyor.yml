@@ -26,7 +26,7 @@ build_script:
   - cd ViZDoom
   - md build
   - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DBoost_INCLUDE_DIR="C:\Libraries\boost_1_67_0"  -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON  -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ..
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DBoost_INCLUDE_DIR="C:\Libraries\boost_1_67_0\include"  -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON  -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ..
   - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
   - git clone --recursive https://github.com/opencv/opencv
   - cd opencv
