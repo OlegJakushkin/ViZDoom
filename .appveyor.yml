@@ -7,21 +7,7 @@ environment:
       TOOLSET: v120_xp
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"      
       BOOST_ROOT: C:\Libraries\boost
-    - GENERATOR: "Visual Studio 12 2013"
-      CONFIGURATION: Release
-      TOOLSET: v120_xp
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"      
-      BOOST_ROOT: C:\Libraries\boost
-    - GENERATOR: "Visual Studio 15 2017"
-      CONFIGURATION: Debug
-      TOOLSET: v141_xp
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2017"
-      BOOST_ROOT: C:\Libraries\boost
-    - GENERATOR: "Visual Studio 15 2017"
-      CONFIGURATION: Release
-      TOOLSET: v141_xp
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2017"
-      BOOST_ROOT: C:\Libraries\boost
+    
 
       
 build_script:
@@ -45,6 +31,7 @@ build_script:
   - cd ../../
   - git clone --recursive https://github.com/opencv/opencv
   - cd opencv
+  - git checkout 3.4.1
   - md build
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_DOCS=OFF  -DBUILD_opencv_world=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF  -DBUILD_SHARED_LIBS=ON -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF   ../
