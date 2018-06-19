@@ -6,8 +6,8 @@ environment:
       CONFIGURATION: Debug
       TOOLSET: v120_xp
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"      
-      BOOST_ROOT: C:\Libraries\boost_1_67_0
-      BOOST_LIBRARYDIR: C:\Libraries\boost_1_67_0\lib32-msvc-12.0
+      BOOST_ROOT: C:\Libraries\boost
+      BOOST_LIBRARYDIR: C:\Libraries\boost\lib32-msvc-12.0
      
       
 build_script:
