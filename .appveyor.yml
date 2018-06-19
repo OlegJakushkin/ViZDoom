@@ -39,10 +39,10 @@ build_script:
   - cd ../../
 
 after_build:
-  - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom\
-  - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom\
+  - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom
+  - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom
   - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\install\
-  - 7z a vizdoom.zip "%zd%*" "%vd%*" "%cv%*"
+  - 7z a vizdoom.zip "%zd%" "%vd%" "%cv%*"
 
 artifacts:
   - path: vizdoom.zip
