@@ -6,10 +6,12 @@ environment:
       CONFIGURATION: Debug
       TOOLSET: v120_xp
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"      
+      BOOST_ROOT: C:\Libraries\boost_1_67_0
     - GENERATOR: "Visual Studio 12 2013"
       CONFIGURATION: Release
       TOOLSET: v120_xp
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"   
+      BOOST_ROOT: C:\Libraries\boost_1_67_0
       
 build_script:
   - git clone --recursive https://github.com/rheit/zdoom
@@ -30,7 +32,7 @@ build_script:
   - cd opencv
   - md build
   - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBoost_INCLUDE_DIR="C:\Libraries\boost_1_67_0" -DBUILD_opencv_world=ON -DBUILD_SHARED_LIBS=ON
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%"  -DBUILD_opencv_world=ON -DBUILD_SHARED_LIBS=ON
   - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
 
 after_build:
