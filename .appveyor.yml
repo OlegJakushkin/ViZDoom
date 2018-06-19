@@ -30,7 +30,7 @@ build_script:
   - cd opencv
   - md build
   - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_opencv_world=ON -DBUILD_SHARED_LIBS=ON
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBoost_INCLUDE_DIR="C:\Libraries\boost_1_67_0" -DBUILD_opencv_world=ON -DBUILD_SHARED_LIBS=ON
   - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
 
 after_build:
