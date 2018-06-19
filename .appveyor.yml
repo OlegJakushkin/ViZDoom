@@ -12,9 +12,9 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"   
       
 build_script:
-  - choco install opencv
-  - git clone --recursive -b 'v2.8.1' --single-branch https://github.com/rheit/zdoom
+  - git clone --recursive https://github.com/rheit/zdoom
   - cd zdoom
+  - checkout 2.8.1
   - md build
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" ..
