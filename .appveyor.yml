@@ -5,9 +5,22 @@ environment:
     - GENERATOR: "Visual Studio 12 2013"
       CONFIGURATION: Debug
       TOOLSET: v120_xp
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"      
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
+    - GENERATOR: "Visual Studio 12 2013"
+      CONFIGURATION: Release
+      TOOLSET: v120_xp
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
       BOOST_ROOT: C:\Libraries\boost
-    
+    - GENERATOR: "Visual Studio 14 2015"
+      CONFIGURATION: Release
+      TOOLSET: v140_xp
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"
+      BOOST_ROOT: C:\Libraries\boost
+    - GENERATOR: "Visual Studio 14 2015"
+      CONFIGURATION: Debug
+      TOOLSET: v140
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"  
+      BOOST_ROOT: C:\Libraries\boost
 
       
 build_script:
@@ -26,7 +39,7 @@ build_script:
   - git checkout 1.1.5pre
   - md build
   - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=OFF -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
   - cmake --build . --config "%CONFIGURATION%" --target libvizdoom_shared 
   - cd ../../
   - git clone --recursive https://github.com/opencv/opencv
@@ -34,14 +47,14 @@ build_script:
   - git checkout 3.4.1
   - md build
   - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_BUILD_TYPE="%CONFIGURATION%"  -DBUILD_DOCS=OFF  -DBUILD_opencv_world=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF  -DBUILD_SHARED_LIBS=ON -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF   ../
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_INSTALL_PREFIX=../ocv -DCMAKE_BUILD_TYPE="%CONFIGURATION%"  -DBUILD_DOCS=OFF  -DBUILD_opencv_world=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF  -DBUILD_SHARED_LIBS=ON -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF   ../
   - cmake --build . --config "%CONFIGURATION%" --target INSTALL -- /verbosity:minimal
   - cd ../../
 
 after_build:
   - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom
   - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom
-  - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\install\
+  - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\ocv
   - 7z a vizdoom.zip "%zd%" "%vd%" "%cv%*"
 
 artifacts:
