@@ -2,6 +2,16 @@ version: "{build}"
 
 environment:
   matrix:
+    - GENERATOR: "Visual Studio 11 2012"
+      CONFIGURATION: Debug
+      TOOLSET: v110_xp
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2012" 
+      BOOST_ROOT: C:\Libraries\boost
+    - GENERATOR: "Visual Studio 11 2012"
+      CONFIGURATION: Release
+      TOOLSET: v110_xp
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2012" 
+
     - GENERATOR: "Visual Studio 12 2013"
       CONFIGURATION: Debug
       TOOLSET: v120_xp
