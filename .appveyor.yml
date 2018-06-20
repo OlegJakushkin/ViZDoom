@@ -7,11 +7,11 @@ environment:
       TOOLSET: v110
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"
       BOOST_BUILD: "1"
-      BOOST_ROOT: %APPVEYOR_BUILD_FOLDER%\boost_1_67_0\install-dir
+      BOOST_ROOT: "%APPVEYOR_BUILD_FOLDER%\boost_1_67_0\install-dir"
     - GENERATOR: "Visual Studio 11 2012"
       CONFIGURATION: Release
       TOOLSET: v110
-      BOOST_ROOT: %APPVEYOR_BUILD_FOLDER%\boost_1_67_0\install-dir
+      BOOST_ROOT: "%APPVEYOR_BUILD_FOLDER%\boost_1_67_0\install-dir"
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
       BOOST_BUILD: "1"
     - GENERATOR: "Visual Studio 12 2013"
