@@ -16,13 +16,12 @@ environment:
       CONFIGURATION: Release
       TOOLSET: v140_xp
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"
-      BOOST_ROOT: C:\Libraries\boost_1_67_0
+      BOOST_ROOT: C:\Libraries\boost_1_66_0
     - GENERATOR: "Visual Studio 14 2015"
       CONFIGURATION: Debug
       TOOLSET: v140_xp
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"  
-      BOOST_ROOT: C:\Libraries\boost_1_67_0
-
+      BOOST_ROOT: C:\Libraries\boost_1_59_0
       
 build_script:
   - dir %BOOST_ROOT%
