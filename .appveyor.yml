@@ -69,7 +69,6 @@ build_script:
   - xcopy /s /e /y ..\zdoom\lzma .\src\vizdoom\
   - xcopy /s /e /y ..\zdoom\output_sdl .\src\vizdoom\
   - xcopy /s /e /y ..\zdoom\specs .\src\vizdoom\
-  - xcopy /s /e /y ..\zdoom\src .\src\vizdoom\
   - xcopy /s /e /y ..\zdoom\tools .\src\vizdoom\
   - xcopy /s /e /y ..\zdoom\wadsrc .\src\vizdoom\
   - xcopy /s /e /y ..\zdoom\zlib .\src\vizdoom\
