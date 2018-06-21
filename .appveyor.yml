@@ -43,7 +43,7 @@ build_script:
           ./bootstrap.bat
           .\b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams --prefix="./install-dir" debug release install toolset=msvc-11.0 architecture=x86 address-model=32 threading=multi
           cd ../
-          set BOOST_ROOT=%APPVEYOR_BUILD_FOLDER%/boost_1_67_0/install-dir
+          $env:BOOST_ROOT=$env:APPVEYOR_BUILD_FOLDER + "/boost_1_67_0/install-dir"
       }
   - dir %BOOST_ROOT%
   - ls %BOOST_ROOT%
