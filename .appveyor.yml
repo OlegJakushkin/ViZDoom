@@ -2,6 +2,11 @@ version: "{build}"
 
 environment:
   matrix:
+    - GENERATOR: "Visual Studio 14 2015"
+      CONFIGURATION: Debug
+      TOOLSET: v140
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"  
+      BOOST_ROOT: C:\Libraries\boost_1_66_0
     - GENERATOR: "Visual Studio 11 2012"
       CONFIGURATION: Debug
       TOOLSET: v110
@@ -27,11 +32,7 @@ environment:
       TOOLSET: v140
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"
       BOOST_ROOT: C:\Libraries\boost_1_66_0
-    - GENERATOR: "Visual Studio 14 2015"
-      CONFIGURATION: Debug
-      TOOLSET: v140
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"  
-      BOOST_ROOT: C:\Libraries\boost_1_66_0
+
       
 build_script:
   - ps: |
@@ -41,9 +42,9 @@ build_script:
           unzip boost_1_67_0.zip
           cd boost_1_67_0/
           ./bootstrap.bat
-          .\b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams --prefix="./install-dir" debug release install toolset=msvc-11.0 architecture=x86 address-model=32 threading=multi
+          .\b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams --prefix="./install-dir" toolset=msvc-11.0 architecture=x86 address-model=32 threading=multi
           cd ../
-          $env:BOOST_ROOT=$env:APPVEYOR_BUILD_FOLDER + "\boost_1_67_0\install-dir"
+          $env:BOOST_ROOT=$env:APPVEYOR_BUILD_FOLDER + "\boost_1_67_0\"
       }
   - dir %BOOST_ROOT%
   - ls %BOOST_ROOT%
@@ -60,7 +61,7 @@ build_script:
   - git checkout 1.1.5pre
   - md build
   - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%\include"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DNO_FMOD=ON -NO_OPENAL=ON -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON -DBUILD_ENGINE=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
   - cmake --build . --config "%CONFIGURATION%" --target libvizdoom_shared 
   - cd ../../
   - git clone --recursive https://github.com/opencv/opencv
