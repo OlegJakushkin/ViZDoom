@@ -62,6 +62,7 @@ build_script:
   - md build
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DNO_FMOD=ON -NO_OPENAL=ON -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON -DBUILD_ENGINE=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
+  - cmake --build . --config "%CONFIGURATION%" --target vizdoom
   - cmake --build . --config "%CONFIGURATION%" --target libvizdoom_shared 
   - cd ../../
   - git clone --recursive https://github.com/opencv/opencv
