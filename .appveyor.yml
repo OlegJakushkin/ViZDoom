@@ -59,8 +59,20 @@ build_script:
   - git clone --recursive https://github.com/mwydmuch/ViZDoom
   - cd ViZDoom
   - git checkout 1.1.5pre
-  - xcopy /s /e /y ..\zdoom\bzip2\* .\src\vizdoom\bzip2\*
-  - xcopy /s /e /y ..\zdoom\dumb\* .\src\vizdoom\dumb\*
+  - xcopy /s /e /y ..\zdoom\bzip2 .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\docs .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\dumb .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\game-music-emu  .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\gdtoa .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\jpeg-6b .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\launcher-templates .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\lzma .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\output_sdl .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\specs .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\src .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\tools .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\wadsrc .\src\vizdoom\
+  - xcopy /s /e /y ..\zdoom\zlib .\src\vizdoom\
   - md build
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DNO_FMOD=ON -NO_OPENAL=ON -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON -DBUILD_ENGINE=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
