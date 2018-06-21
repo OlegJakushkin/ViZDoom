@@ -39,7 +39,7 @@ build_script:
   - ps: |
       if ($env:BOOST_BUILD -imatch "1") { 
           choco install wget unzip
-          wget https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.zip
+          wget -O boost_1_67_0.zip https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.zip
           unzip boost_1_67_0.zip -d boost_1_67_0
           cd boost_1_67_0
           ./bootstrap.bat
