@@ -40,8 +40,8 @@ build_script:
       if ($env:BOOST_BUILD -imatch "1") { 
           choco install wget unzip
           wget -O boost_1_67_0.zip https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.zip
-          unzip boost_1_67_0.zip -d boost_1_67_0
-          cd boost_1_67_0
+          unzip boost_1_67_0.zip
+          cd boost_1_67_0/
           ./bootstrap.bat
           b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams --prefix="./install-dir" debug release install toolset=msvc-11.0 architecture=x86 address-model=32 threading=multi
           cd ../
