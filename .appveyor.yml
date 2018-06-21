@@ -59,7 +59,7 @@ build_script:
   - git clone --recursive https://github.com/mwydmuch/ViZDoom
   - cd ViZDoom
   - git checkout 1.1.5pre
-  - copy /Y ..\zdoom\bzip2 src\vizdoom\bzip2
+  - copy /Y ..\zdoom\bzip2\* src\vizdoom\bzip2\*
   - md build
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DNO_FMOD=ON -NO_OPENAL=ON -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_SHARED_LIBS=ON -DBUILD_ENGINE=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
