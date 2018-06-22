@@ -22,6 +22,7 @@ build_script:
           cd ../
           $env:BOOST_ROOT=$env:APPVEYOR_BUILD_FOLDER + "\boost_1_67_0\"
       }
+  - choco install wget
   - dir %BOOST_ROOT%
   - ls %BOOST_ROOT%
   - git clone --recursive https://github.com/mwydmuch/ViZDoomWinDepBin
