@@ -25,6 +25,10 @@ build_script:
   - choco install wget
   - dir %BOOST_ROOT%
   - ls %BOOST_ROOT%
+  - git clone --recursive https://github.com/rheit/zdoom
+  - cd zdoom
+  - git checkout 2.8.1
+  - cd ../
   - git clone --recursive https://github.com/mwydmuch/ViZDoomWinDepBin
   - set LIB_DIR=%cd%\ViZDoomWinDepBin\
   - wget https://datapacket.dl.sourceforge.net/project/gnuwin32/re2c/0.9.4/re2c-0.9.4-bin.zip
@@ -41,6 +45,8 @@ build_script:
   - set OPENAL_INCLUDE_DIR=%LIB_DIR%\openal\include
   - set OPENAL_LIBRARY=%LIB_DIR%\openal\libs\openal32.lib
   - set YASM_PATH=%LIB_DIR%\yasm.exe
+  - xcopy /s /e /y ..\zdoom\bzip2 .\src\vizdoom\bzip2
+  - xcopy /s /e /y ..\zdoom\zlib .\src\vizdoom\zlib
   - cmake -G "%GENERATOR%" -T "%TOOLSET%"    -DCMAKE_BUILD_TYPE="%CONFIGURATION%"  -DBUILD_SHARED_LIBS=ON -DBOOST_INCLUDEDIR="%BOOST_ROOT%" -DNO_FMOD=ON -DNO_OPENAL=ON -DBOOST_ROOT="%BOOST_ROOT%" -DFMOD_INCLUDE_DIR="%FMOD_INCLUDE_DIR%"  -DFMOD_LIBRARY="%FMOD_LIBRARY%" -DMPG123_INCLUDE_DIR="%MPG123_INCLUDE_DIR%" -DMPG123_LIBRARIES="%MPG123_LIBRARIES%" -DSNDFILE_INCLUDE_DIR="%SNDFILE_INCLUDE_DIR%" -DSNDFILE_LIBRARY="%SNDFILE_LIBRARY%" -DOPENAL_INCLUDE_DIR="%OPENAL_INCLUDE_DIR%" -DOPENAL_LIBRARY="%OPENAL_LIBRARY%" -DNO_ASM=ON  -DYASM_PATH="%YASM_PATH%" -DBUILD_ENGINE=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF
   - cmake --build . --config "%CONFIGURATION%" --target vizdoom
   - cmake --build . --config "%CONFIGURATION%" --target libvizdoom_shared 
