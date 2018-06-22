@@ -28,7 +28,7 @@ build_script:
   - git clone --recursive https://github.com/mwydmuch/ViZDoomWinDepBin
   - set LIB_DIR=%cd%\ViZDoomWinDepBin\
   - wget https://datapacket.dl.sourceforge.net/project/gnuwin32/re2c/0.9.4/re2c-0.9.4-bin.zip
-  - 7z e re2c-0.9.4-bin.zip
+  - 7z e -y re2c-0.9.4-bin.zip
   - setx path "%path%;%cd%\re2c-0.9.4-bin\bin\;%cd%\ViZDoomWinDepBin\"
   - git clone --recursive https://github.com/mwydmuch/ViZDoom
   - cd ViZDoom
