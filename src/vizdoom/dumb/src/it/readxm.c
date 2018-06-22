@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-extern short *DUMBCALLBACK dumb_decode_vorbis(int outlen, const void *oggstream, int sizebytes);
+//extern short *DUMBCALLBACK dumb_decode_vorbis(int outlen, const void *oggstream, int sizebytes);
 
 /** TODO:
 
@@ -830,7 +830,7 @@ static int it_xm_read_sample_data(IT_SAMPLE *sample, unsigned char roguebytes, D
 			sample->loop_start >>= 1;
 			sample->loop_end >>= 1;
 		}
-		output = dumb_decode_vorbis(outlen, (char *)sample->data + 4, datasizebytes - 4);
+		output = NULL; //dumb_decode_vorbis(outlen, (char *)sample->data + 4, datasizebytes - 4);
 		if (output != NULL)
 		{
 			free(sample->data);
@@ -845,7 +845,7 @@ static int it_xm_read_sample_data(IT_SAMPLE *sample, unsigned char roguebytes, D
 
 			it_xm_fixup_sample_points(sample);
 			return 0;
-		}
+		} else {return 0;}
 		/* Decode failed, so assume it's normal sample data that just so
 		 * happened to look like a Vorbis stream. (Not likely to happen
 		 * by coincidence!) */
