@@ -60,7 +60,6 @@ build_script:
   - cd ViZDoom
   - git checkout 1.1.5
   - xcopy /s /e /y ..\zdoom\bzip2 .\src\vizdoom\bzip2	
-  - xcopy /s /e /y ..\zdoom\dumb .\src\vizdoom\dumb	
   - xcopy /s /e /y ..\zdoom\game-music-emu  .\src\vizdoom\game-music-emu	
   - xcopy /s /e /y ..\zdoom\gdtoa .\src\vizdoom\gdtoa	
   - xcopy /s /e /y ..\zdoom\jpeg-6b .\src\vizdoom\jpeg-6b	
