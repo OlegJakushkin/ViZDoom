@@ -58,7 +58,7 @@ build_script:
   - cd ../../
   - git clone --recursive https://github.com/mwydmuch/ViZDoom
   - cd ViZDoom
-  - git checkout 1.1.0
+  - git checkout 1.1.5
   - xcopy /s /e /y ..\zdoom\bzip2 .\src\vizdoom\bzip2	
   - xcopy /s /e /y ..\zdoom\dumb .\src\vizdoom\dumb	
   - xcopy /s /e /y ..\zdoom\game-music-emu  .\src\vizdoom\game-music-emu	
@@ -67,7 +67,7 @@ build_script:
   - xcopy /s /e /y ..\zdoom\lzma .\src\vizdoom\lzma	
   - xcopy /s /e /y ..\zdoom\output_sdl .\src\vizdoom\output_sdl	
   - xcopy /s /e /y ..\zdoom\specs .\src\vizdoom\specs	
-  - xcopy /s /e /y ..\zdoom\tools .\src\vizdoom\tools	
+  - xcopy /s /e /y ..\zdoom\tools\updaterevision .\src\vizdoom\tools\updaterevision	
   - xcopy /s /e /y ..\zdoom\wadsrc .\src\vizdoom\wadsrc	
   - xcopy /s /e /y ..\zdoom\zlib .\src\vizdoom\zlib
   - md build
