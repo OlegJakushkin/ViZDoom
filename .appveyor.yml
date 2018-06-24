@@ -34,6 +34,7 @@ build_script:
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_STATIC_LIBS=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
   - cmake --build . --config Debug --target libvizdoom_static
   - cmake --build . --config Release --target libvizdoom_static
+  - ren ..\bin\*.lib ..\bin\*d.lib
   - cd ../../
   - git clone --recursive https://github.com/opencv/opencv
   - cd opencv
@@ -50,7 +51,7 @@ after_build:
   - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom
   - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\ocv
   - set br=%BOOST_ROOT%
-  - 7z a vizdoom.7z "%zd%" "%vd%" "%cv%*" "%br%" -xr!*.suo -xr!.git*
+  - 7z a vizdoom.7z "%zd%" "%vd%" "%cv%*" "%br%" -xr!*.suo -xr!.git* -xr!lib64* -xr!libboost_wave* -xr!doc* -xr!libboost_test -xr!libboost_unit*
 
 artifacts:
   - path: vizdoom.zip
