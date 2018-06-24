@@ -38,7 +38,7 @@ build_script:
   - ls ./
   - echo %cd%
   - set bld=%BOOST_ROOT%stage/lib
-  - cmake -G "%GENERATOR%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%" ./../
+  - cmake ..
   - cmake --build . --config Release --target vizdoom
   - cmake --build . --config Debug --target libvizdoom_static
   - cd ../bin/
