@@ -26,7 +26,7 @@ build_script:
   - unzip boost_1_67_0.zip
   - cd boost_1_67_0/
   - ./bootstrap.bat
-  - .\b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams toolset=msvc-%BTOOLSET% architecture=x86 address-model=32 threading=multi
+  - .\b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams toolset=msvc-%BTOOLSET% architecture=x86 address-model=32  link=static runtime-link=static threading=multi
   - cd ../
   - set BOOST_ROOT=%APPVEYOR_BUILD_FOLDER%\boost_1_67_0\
   - ls %BOOST_ROOT%
