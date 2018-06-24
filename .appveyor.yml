@@ -36,7 +36,7 @@ build_script:
   - cd build
   - set bld=%BOOST_ROOT%stage\lib\
   - ls %bld%
-  - cmake -DBoost_LINK_DIR=%bld% -DBoost_INCLUDE_DIR=%BOOST_ROOT% ..
+  - cmake -DBoost_LINK_DIR=%bld% -DBoost_INCLUDE_DIR=%BOOST_ROOT% -DNO_FMOD=ON -NO_OPENAL=ON  ..
   - cmake --build . --config Release --target vizdoom
   - cmake --build . --config Debug --target libvizdoom_static
   - cd ../bin/
