@@ -104,7 +104,7 @@ set(VIZDOOM_LIB_INCLUDE_DIR ${VIZDOOM_INCLUDE_DIR} ${VIZDOOM_LIB_SRC_DIR})
 set(VIZDOOM_OUTPUT_NAME vizdoom)
 
 include_directories(${VIZDOOM_LIB_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
-
+link_directories( ${Boost_LINK_DIR})
 set(VIZDOOM_LIBS
         
         ${CMAKE_THREAD_LIBS_INIT})
