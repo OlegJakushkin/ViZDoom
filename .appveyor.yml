@@ -2,39 +2,44 @@ version: "{build}"
 
 environment:
   matrix:
-    - GENERATOR: "Visual Studio 14 2015"
-      CONFIGURATION: Debug
-      TOOLSET: v140
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"  
-      BOOST_ROOT: C:\Libraries\boost_1_66_0
-    - GENERATOR: "Visual Studio 12 2013"
-      CONFIGURATION: Debug
-      TOOLSET: v120
+    - GENERATOR: "Visual Studio 15 2017"
+      TOOLSET: v141
+      BTOOLSET: 14.1
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2017"   
+    - GENERATOR: "Visual Studio 11 2012"
+      TOOLSET: v110
+      BTOOLSET: 11.0
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
-      BOOST_ROOT: C:\Libraries\boost
+      BOOST_BUILD: "1"
+    - GENERATOR: "Visual Studio 14 2015"
+      TOOLSET: v140
+      BTOOLSET: 14.0
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"  
+    - GENERATOR: "Visual Studio 12 2013"
+      TOOLSET: v120
+      BTOOLSET: 12.0
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
 
-      
 build_script:
+  - choco install wget unzip
+  - wget -O boost_1_67_0.zip https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.zip
+  - unzip boost_1_67_0.zip
+  - cd boost_1_67_0/
+  - ./bootstrap.bat
+  - .\b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams toolset=msvc-%BTOOLSET% architecture=x86 address-model=32 threading=multi
+  - cd ../
+  - set BOOST_ROOT=%APPVEYOR_BUILD_FOLDER%\boost_1_67_0\
   - dir %BOOST_ROOT%
   - ls %BOOST_ROOT%
-  - git clone --recursive https://github.com/rheit/zdoom
-  - cd zdoom
-  - git checkout 2.8.1
-  - md build
-  - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" ..
-  - cmake --build . --config Debug -- /verbosity:minimal
-  - cmake --build . --config Release -- /verbosity:minimal
-  - cd ../../
-  - git clone --recursive https://github.com/mwydmuch/ViZDoom
+  - git clone --recursive https://github.com/OlegJakushkin/ViZDoom
   - cd ViZDoom
-  - git checkout 1.1.5pre
   - md build
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_STATIC_LIBS=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
+  - cmake --build . --config Release --target vizdoom
   - cmake --build . --config Debug --target libvizdoom_static
-  - cmake --build . --config Release --target libvizdoom_static
   - ren ..\bin\*.lib ..\bin\*d.lib
+  - cmake --build . --config Release --target libvizdoom_static
   - cd ../../
   - git clone --recursive https://github.com/opencv/opencv
   - cd opencv
