@@ -30,8 +30,13 @@ build_script:
   - cd ../
   - set BOOST_ROOT=%APPVEYOR_BUILD_FOLDER%\boost_1_67_0\
   - ls %BOOST_ROOT%
-  - git clone --recursive https://github.com/OlegJakushkin/ViZDoom
+  - git clone --recursive https://github.com/OlegJakushkin/ViZDoom oj
+  - git clone --recursive https://github.com/mwydmuch/ViZDoom
   - cd ViZDoom
+  - git checkout 1.1.5
+  - xcopy /s /e /y ..\oj\CMakeLists.txt .\CMakeLists.txt
+  - xcopy /s /e /y ..\oj\src\vizdoom\CMakeLists.txt .\src\vizdoom\CMakeLists.txt
+  - xcopy /s /e /y ..\oj\src\vizdoom\src\CMakeLists.txt .\src\vizdoom\src\CMakeLists.txt
   - md build
   - cd build
   - set bld=%BOOST_ROOT%stage\lib\
