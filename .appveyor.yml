@@ -2,29 +2,19 @@ version: "{build}"
 
 environment:
   matrix:
-    - GENERATOR: "Visual Studio 11 2012"
-      CONFIGURATION: Debug
-      TOOLSET: v110
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013"
-      BOOST_BUILD: "1"
     - GENERATOR: "Visual Studio 14 2015"
       CONFIGURATION: Debug
       TOOLSET: v140
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"  
       BOOST_ROOT: C:\Libraries\boost_1_66_0
-    - GENERATOR: "Visual Studio 11 2012"
-      CONFIGURATION: Release
-      TOOLSET: v110
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
-      BOOST_BUILD: "1"
     - GENERATOR: "Visual Studio 12 2013"
       CONFIGURATION: Debug
-      TOOLSET: v120
+      TOOLSET: v120_xp
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
       BOOST_ROOT: C:\Libraries\boost
     - GENERATOR: "Visual Studio 12 2013"
       CONFIGURATION: Release
-      TOOLSET: v120
+      TOOLSET: v120_xp
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
       BOOST_ROOT: C:\Libraries\boost
     - GENERATOR: "Visual Studio 14 2015"
@@ -33,21 +23,8 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"
       BOOST_ROOT: C:\Libraries\boost_1_66_0
 
-
       
 build_script:
-  - ps: |
-      if ($env:BOOST_BUILD -imatch "1") { 
-          choco install wget unzip
-          wget -O boost_1_67_0.zip https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.zip
-          unzip boost_1_67_0.zip
-          cd boost_1_67_0/
-          ./bootstrap.bat
-          .\b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams --prefix="./install-dir" toolset=msvc-11.0 architecture=x86 address-model=32 threading=multi
-          cd ../
-          $env:BOOST_ROOT=$env:APPVEYOR_BUILD_FOLDER + "\boost_1_67_0\"
-      }
-  - choco install wget
   - dir %BOOST_ROOT%
   - ls %BOOST_ROOT%
   - git clone --recursive https://github.com/rheit/zdoom
@@ -58,30 +35,13 @@ build_script:
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" ..
   - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
   - cd ../../
-  - git clone --recursive https://github.com/mwydmuch/ViZDoomWinDepBin
-  - set LIB_DIR=%cd%\ViZDoomWinDepBin\
-  - wget https://datapacket.dl.sourceforge.net/project/gnuwin32/re2c/0.9.4/re2c-0.9.4-bin.zip
-  - 7z e -y re2c-0.9.4-bin.zip
-  - setx path "%path%;%cd%\re2c-0.9.4-bin\bin\;%cd%\ViZDoomWinDepBin\"
-  - git clone --recursive https://github.com/OlegJakushkin/ViZDoom
+  - git clone --recursive https://github.com/mwydmuch/ViZDoom
   - cd ViZDoom
-  - set FMOD_INCLUDE_DIR=%LIB_DIR%\fmod\inc
-  - set FMOD_LIBRARY=%LIB_DIR%\fmod\lib\fmodex64.lib
-  - set MPG123_INCLUDE_DIR=%LIB_DIR%\libmpg123
-  - set MPG123_LIBRARIES=%LIB_DIR%\libmpg123\libmpg123-0.lib
-  - set SNDFILE_INCLUDE_DIR=%LIB_DIR%\libsndfile\include
-  - set SNDFILE_LIBRARY=%LIB_DIR%\libsndfile\lib\libsndfile-1.lib
-  - set OPENAL_INCLUDE_DIR=%LIB_DIR%\openal\include
-  - set OPENAL_LIBRARY=%LIB_DIR%\openal\libs\openal32.lib
-  - set YASM_PATH=%LIB_DIR%\yasm.exe
-  - rd /s /q .\src\vizdoom\bzip2
-  - rd /s /q .\src\vizdoom\zlib
-  - md .\src\vizdoom\bzip2
-  - md .\src\vizdoom\zlib
-  - xcopy /s /e /y ..\zdoom\bzip2 .\src\vizdoom\bzip2
-  - xcopy /s /e /y ..\zdoom\zlib .\src\vizdoom\zlib
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE   -DCMAKE_BUILD_TYPE="%CONFIGURATION%"  -DBUILD_SHARED_LIBS=ON -DBOOST_INCLUDEDIR="%BOOST_ROOT%" -DNO_FMOD=ON -DNO_OPENAL=ON -DBOOST_ROOT="%BOOST_ROOT%" -DFMOD_INCLUDE_DIR="%FMOD_INCLUDE_DIR%"  -DFMOD_LIBRARY="%FMOD_LIBRARY%" -DMPG123_INCLUDE_DIR="%MPG123_INCLUDE_DIR%" -DMPG123_LIBRARIES="%MPG123_LIBRARIES%" -DSNDFILE_INCLUDE_DIR="%SNDFILE_INCLUDE_DIR%" -DSNDFILE_LIBRARY="%SNDFILE_LIBRARY%" -DOPENAL_INCLUDE_DIR="%OPENAL_INCLUDE_DIR%" -DOPENAL_LIBRARY="%OPENAL_LIBRARY%" -DNO_ASM=ON  -DYASM_PATH="%YASM_PATH%" -DBUILD_ENGINE=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF
-  - cmake --build . --config "%CONFIGURATION%" --target libvizdoom_shared 
+  - git checkout 1.1.5pre
+  - md build
+  - cd build
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_STATIC_LIBS=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
+  - cmake --build . --config "%CONFIGURATION%" --target libvizdoom_static
   - cd ../../
   - git clone --recursive https://github.com/opencv/opencv
   - cd opencv
@@ -96,7 +56,8 @@ after_build:
   - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom
   - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom
   - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\ocv
-  - 7z a vizdoom.zip "%zd%" "%vd%" "%cv%*"
+  - set br=%BOOST_ROOT%
+  - 7z a vizdoom.zip "%zd%" "%vd%" "%cv%*" "%br%"
 
 artifacts:
   - path: vizdoom.zip
