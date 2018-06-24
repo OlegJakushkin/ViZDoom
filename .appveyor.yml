@@ -29,15 +29,13 @@ build_script:
   - .\b2 -j8 -d0 --with-thread --with-filesystem --with-thread --with-system --with-date_time --with-chrono --with-regex --with-iostreams toolset=msvc-%BTOOLSET% architecture=x86 address-model=32 threading=multi
   - cd ../
   - set BOOST_ROOT=%APPVEYOR_BUILD_FOLDER%\boost_1_67_0\
-  - dir %BOOST_ROOT%
   - ls %BOOST_ROOT%
   - git clone --recursive https://github.com/OlegJakushkin/ViZDoom
   - cd ViZDoom
   - md build
   - cd build
-  - dir ./
   - set bld=%BOOST_ROOT%stage\lib\
-  - dir %bld%
+  - ls %bld%
   - cmake -DBoost_LINK_DIR=%bld% -DBoost_INCLUDE_DIR=%BOOST_ROOT% ..
   - cmake --build . --config Release --target vizdoom
   - cmake --build . --config Debug --target libvizdoom_static
