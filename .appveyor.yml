@@ -9,19 +9,9 @@ environment:
       BOOST_ROOT: C:\Libraries\boost_1_66_0
     - GENERATOR: "Visual Studio 12 2013"
       CONFIGURATION: Debug
-      TOOLSET: v120_xp
+      TOOLSET: v120
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
       BOOST_ROOT: C:\Libraries\boost
-    - GENERATOR: "Visual Studio 12 2013"
-      CONFIGURATION: Release
-      TOOLSET: v120_xp
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2013" 
-      BOOST_ROOT: C:\Libraries\boost
-    - GENERATOR: "Visual Studio 14 2015"
-      CONFIGURATION: Release
-      TOOLSET: v140
-      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2015"
-      BOOST_ROOT: C:\Libraries\boost_1_66_0
 
       
 build_script:
@@ -32,8 +22,9 @@ build_script:
   - git checkout 2.8.1
   - md build
   - cd build
-  - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" ..
-  - cmake --build . --config "%CONFIGURATION%" -- /verbosity:minimal
+  - cmake -G "%GENERATOR%" -T "%TOOLSET%" ..
+  - cmake --build . --config Debug -- /verbosity:minimal
+  - cmake --build . --config Release -- /verbosity:minimal
   - cd ../../
   - git clone --recursive https://github.com/mwydmuch/ViZDoom
   - cd ViZDoom
@@ -41,7 +32,8 @@ build_script:
   - md build
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBOOST_ROOT="%BOOST_ROOT%" -DBoost_INCLUDE_DIR="%BOOST_ROOT%"   -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DBUILD_STATIC_LIBS=ON -DBUILD_PYTHON=OFF -DBUILD_JAVA=OFF -DBUILD_LUA=OFF ./../
-  - cmake --build . --config "%CONFIGURATION%" --target libvizdoom_static
+  - cmake --build . --config Debug --target libvizdoom_static
+  - cmake --build . --config Release --target libvizdoom_static
   - cd ../../
   - git clone --recursive https://github.com/opencv/opencv
   - cd opencv
@@ -49,15 +41,16 @@ build_script:
   - md build
   - cd build
   - cmake -G "%GENERATOR%" -T "%TOOLSET%" -DCMAKE_INSTALL_PREFIX=../ocv -DCMAKE_BUILD_TYPE="%CONFIGURATION%"  -DBUILD_DOCS=OFF  -DBUILD_opencv_world=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF  -DBUILD_SHARED_LIBS=ON -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF   ../
-  - cmake --build . --config "%CONFIGURATION%" --target INSTALL -- /verbosity:minimal
+  - cmake --build . --config Debug --target INSTALL -- /verbosity:minimal
+  - cmake --build . --config Release --target INSTALL -- /verbosity:minimal
   - cd ../../
 
 after_build:
-  - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom
+  - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom\build
   - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom
   - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\ocv
   - set br=%BOOST_ROOT%
-  - 7z a vizdoom.zip "%zd%" "%vd%" "%cv%*" "%br%"
+  - 7z a vizdoom.7z "%zd%" "%vd%" "%cv%*" "%br%" -xr!*.suo -xr!.git*
 
 artifacts:
   - path: vizdoom.zip
