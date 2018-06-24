@@ -11,6 +11,7 @@ set(ViZDoom_VERSION ${ViZDoom_MAJOR_VERSION}.${ViZDoom_MINOR_VERSION}.${ViZDoom_
 set(ViZDoom_VERSION_STR ${ViZDoom_VERSION})
 set(ViZDoom_VERSION_ID ${ViZDoom_MAJOR_VERSION}${ViZDoom_MINOR_VERSION}${ViZDoom_PATCH_VERSION})
 
+
 # Building options
 #-----------------------------------------------------------------------------------------------------------------------
 
@@ -52,10 +53,6 @@ if (UNIX)
 endif ()
 
 if (WIN32)
-    set(Boost_USE_STATIC_LIBS ON)
-    set(Boost_USE_MULTITHREADED ON)
-    set(Boost_USE_STATIC_RUNTIME ON)
-
     macro(get_WIN32_WINNT version)
         if (WIN32 AND CMAKE_SYSTEM_VERSION)
             set(ver ${CMAKE_SYSTEM_VERSION})
@@ -96,7 +93,7 @@ endif ()
 # Targets
 #-----------------------------------------------------------------------------------------------------------------------
 
-find_package(Boost COMPONENTS filesystem thread system date_time chrono regex iostreams REQUIRED)
+#find_package(Boost COMPONENTS filesystem thread system date_time chrono regex iostreams REQUIRED)
 find_package(Threads REQUIRED)
 
 set(VIZDOOM_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
@@ -109,7 +106,7 @@ set(VIZDOOM_OUTPUT_NAME vizdoom)
 include_directories(${VIZDOOM_LIB_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
 
 set(VIZDOOM_LIBS
-        ${Boost_LIBRARIES}
+        
         ${CMAKE_THREAD_LIBS_INIT})
 
 if (UNIX AND NOT APPLE)
@@ -184,26 +181,19 @@ if (BUILD_PYTHON OR BUILD_PYTHON3)
     set(VIZDOOM_PYTHON_SRC_DIR ${VIZDOOM_SRC_DIR}/lib_python)
     set(VIZDOOM_PYTHON_INCLUDE_DIR ${VIZDOOM_INCLUDE_DIR} ${VIZDOOM_PYTHON_SRC_DIR})
 
-
     # Use included pybind11
     add_subdirectory(${VIZDOOM_PYTHON_SRC_DIR}/pybind11)
 
     set(VIZDOOM_PYTHON_LIBS
             ${VIZDOOM_LIBS}
             ${Boost_LIBRARIES}
+            ${PYTHON_LIBRARIES}
             ${NUMPY_LIBRARIES})
 
     include_directories(${VIZDOOM_PYTHON_INCLUDE_DIR}
             ${Boost_INCLUDE_DIR}
+            ${PYTHON_INCLUDE_DIRS}
             ${NUMPY_INCLUDES})
-
-    set(ViZDoom_PYTHON_INLCUDE_DIR ${VIZDOOM_PYTHON_INCLUDE_DIR})
-    set(ViZDoom_PYTHON_VERSION_STR ${PYTHON_VERSION_STRING})
-
-    configure_file(
-        "${VIZDOOM_PYTHON_SRC_DIR}/__init__.py.in"
-        "${VIZDOOM_PYTHON_SRC_DIR}/__init__.py"
-    )
 
     set(VIZDOOM_PYTHON_SOURCES
             ${VIZDOOM_PYTHON_SRC_DIR}/ViZDoomGamePython.h
