@@ -1243,8 +1243,8 @@ void AM_changeWindowLoc ()
 //=============================================================================
 
 // VIZDOOM_CODE
-EXTERN_CVAR (Float, viz_am_scale)
-EXTERN_CVAR (Bool, viz_am_center)
+//EXTERN_CVAR (Float, viz_am_scale)
+//EXTERN_CVAR (Bool, viz_am_center)
 
 // VIZDOOM_CODE
 void AM_initVariables ()
@@ -1281,6 +1281,7 @@ void AM_initVariables ()
 	m_y = (players[pnum].camera->Y() >> FRACTOMAPBITS) - m_h / 2;
 
 	// scale
+	/*
 	if(*viz_am_scale != -1) {
 		scale_mtof = int(*viz_am_scale * INITSCALEMTOF);
 		scale_ftom = MapDiv(MAPUNIT, scale_mtof);
@@ -1297,6 +1298,7 @@ void AM_initVariables ()
 		m_x = min_x + max_w/2 - m_w/2;
 		m_y = min_y + max_h/2 - m_h/2;
 	}
+	*/
 
 	// for saving & restoring
 	old_m_x = m_x;
