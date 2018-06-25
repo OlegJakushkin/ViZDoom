@@ -53,6 +53,10 @@ if (UNIX)
 endif ()
 
 if (WIN32)
+    set(Boost_USE_STATIC_LIBS ON)
+    set(Boost_USE_MULTITHREADED ON)
+    set(Boost_USE_STATIC_RUNTIME ON)
+
     macro(get_WIN32_WINNT version)
         if (WIN32 AND CMAKE_SYSTEM_VERSION)
             set(ver ${CMAKE_SYSTEM_VERSION})
@@ -105,8 +109,9 @@ set(VIZDOOM_OUTPUT_NAME vizdoom)
 
 include_directories(${VIZDOOM_LIB_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
 link_directories( ${Boost_LINK_DIR})
+
 set(VIZDOOM_LIBS
-        
+        ${Boost_LIBRARIES}
         ${CMAKE_THREAD_LIBS_INIT})
 
 if (UNIX AND NOT APPLE)
@@ -187,12 +192,10 @@ if (BUILD_PYTHON OR BUILD_PYTHON3)
     set(VIZDOOM_PYTHON_LIBS
             ${VIZDOOM_LIBS}
             ${Boost_LIBRARIES}
-            ${PYTHON_LIBRARIES}
             ${NUMPY_LIBRARIES})
 
     include_directories(${VIZDOOM_PYTHON_INCLUDE_DIR}
             ${Boost_INCLUDE_DIR}
-            ${PYTHON_INCLUDE_DIRS}
             ${NUMPY_INCLUDES})
 
     set(VIZDOOM_PYTHON_SOURCES
