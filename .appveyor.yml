@@ -33,7 +33,7 @@ build_script:
   - git clone --recursive https://github.com/OlegJakushkin/ViZDoom oj
   - git clone --recursive https://github.com/mwydmuch/ViZDoom
   - cd ViZDoom
-  - git checkout 1.1.5
+  - git checkout 1.1.4
   - copy /y ..\oj\CMakeLists.txt .\CMakeLists.txt
   - copy /y ..\oj\src\vizdoom\CMakeLists.txt .\src\vizdoom\CMakeLists.txt
   - copy /y ..\oj\src\vizdoom\src\CMakeLists.txt .\src\vizdoom\src\CMakeLists.txt
