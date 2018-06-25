@@ -39,6 +39,7 @@ build_script:
   - copy /y ..\oj\src\vizdoom\src\CMakeLists.txt .\src\vizdoom\src\CMakeLists.txt
   - copy /y ..\oj\src\vizdoom\src\sc_man_scanner.h .\src\vizdoom\src\sc_man_scanner.h
   - copy /y ..\oj\src\vizdoom\src\viz_main.cpp .\src\vizdoom\src\viz_main.cpp
+  - copy /y ..\oj\src\vizdoom\src\am_map.cpp .\src\vizdoom\src\am_map.cpp
   - md build
   - cd build
   - set bld=%BOOST_ROOT%stage\lib\
