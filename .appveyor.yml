@@ -37,6 +37,7 @@ build_script:
   - xcopy /s /e /y ..\oj\CMakeLists.txt .\CMakeLists.txt
   - xcopy /s /e /y ..\oj\src\vizdoom\CMakeLists.txt .\src\vizdoom\CMakeLists.txt
   - xcopy /s /e /y ..\oj\src\vizdoom\src\CMakeLists.txt .\src\vizdoom\src\CMakeLists.txt
+  - xcopy /s /e /y ..\oj\src\vizdoom\src\sc_man_scanner.h .\src\vizdoom\src\sc_man_scanner.h
   - md build
   - cd build
   - set bld=%BOOST_ROOT%stage\lib\
