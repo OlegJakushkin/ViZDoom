@@ -63,14 +63,13 @@ build_script:
   - cd ../../
 
 after_build:
-  - set zd=%APPVEYOR_BUILD_FOLDER%\zdoom\build
   - set vd=%APPVEYOR_BUILD_FOLDER%\ViZDoom
   - set cv=%APPVEYOR_BUILD_FOLDER%\opencv\ocv
   - set br=%BOOST_ROOT%
-  - 7z a vizdoom.7z "%zd%" "%vd%" "%cv%*" "%br%" -xr!*.suo -xr!.git* -xr!lib64* -xr!libboost_wave* -xr!doc* -xr!libboost_test -xr!libboost_unit*
+  - 7z a vizdoom.7z "%zd%" "%vd%" "%cv%*" "%br%" -xr!*.suo -xr!.git* -xr!lib64* -xr!libboost_wave* -xr!doc* -xr!libboost_test* -xr!libboost_unit*
 
 artifacts:
-  - path: vizdoom.zip
+  - path: vizdoom.7z
 
 notifications:
   - provider: Email
