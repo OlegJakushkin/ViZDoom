@@ -213,7 +213,7 @@ unsigned int VIZLabelsBuffer::getActorId(AActor *actor){
     }
     else{
         unsigned int newId = this->actors.size() + 1;
-        this->actors.insert({actor, newId});
+        this->actors.insert(std::pair<AActor*, unsigned int>(actor, newId));
         return newId;
     }
 }
